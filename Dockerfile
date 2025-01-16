@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/python-312:9.5-1736338296 as builder
+FROM registry.access.redhat.com/ubi9/python-312:9.5-1736338296 AS builder
 COPY --from=ghcr.io/astral-sh/uv:0.5.20 /uv /bin/uv
 
 ENV \

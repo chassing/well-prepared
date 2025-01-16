@@ -2,7 +2,7 @@
 name = "well-prepared"
 version = "0.1.0"
 description = "well-prepared is a sleek and intuitive web application designed to simplify organization and planning"
-requires-python = ">=3.13"
+requires-python = "~= 3.12"
 authors = [{ name = "Christian Assing", email = "chris@ca-net.org" }]
 license = { text = "MIT License" }
 readme = "README.md"
@@ -21,12 +21,7 @@ django-bootstrap-v5 = { git = "https://github.com/math-a3k/django-bootstrap-v5.g
 
 
 [dependency-groups]
-dev = [
-    "mypy>=1.14.1",
- "pytest>=8.3.4",
- "pyyaml>=6.0.2",
- "ruff>=0.9.1",
-]
+dev = ["mypy>=1.14.1", "pytest>=8.3.4", "pyyaml>=6.0.2", "ruff>=0.9.1"]
 
 [project.urls]
 homepage = "https://github.com/chassing/well-prepared"
