@@ -24,4 +24,5 @@ RUN uv sync --frozen --no-group dev
 #
 FROM builder AS prod
 COPY --from=builder /opt/app-root /opt/app-root
+COPY app.sh ./
 ENTRYPOINT [ "./app.sh" ]
