@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ event.name }}
+    {% include "partials/event-toggle-open-button.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-between">
+        {% for section in event.sections.all %}
+            {% include "partials/section-list.html" %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

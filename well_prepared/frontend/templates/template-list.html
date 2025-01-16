@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Templates{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <div class="row justify-content-between">
+        {% for template in templates %}
+            <div class="col">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ template.icon }} {{ template.name }}</h5>
+                        <p class="card-text">{{ template.description }}</p>
+                        <a class="btn btn-primary" href="{% url 'frontend:event-create' template_pk=template.pk %}">
+                            <i class="bi bi-calendar-date"></i>
+                        </a>
+                        <a class="btn btn-secondary" href="{% url 'frontend:template-detail' template_pk=template.pk %}">
+                            <i class="bi bi-pen"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

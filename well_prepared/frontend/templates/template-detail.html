@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}{{ template.name }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-between">
+        {% for section in template.sections.all %}
+            {% include "partials/section-template-list.html" with section=section %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

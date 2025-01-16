@@ -1,0 +1,4 @@
+<a class="link-primary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+    style="cursor: pointer; text-decoration: none;" hx-post="{% url 'frontend:event-toggle-open' event_pk=event.pk %}">
+    <i class="bi {% if event.open %}bi-x-square {% else %} bi-check-square {% endif %}"></i>
+</a>

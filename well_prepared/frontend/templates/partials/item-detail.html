@@ -1,0 +1,9 @@
+<li class="item border rounded mb-2 ps-2 {% if not display_closed_items and item.status == 'C' %} invisible {% endif %}"
+    hx-swap="outerHTML">
+    <span class="item-status-{{ item.status }}">
+        {{ item.name }}
+    </span>
+    <a class="stretched-link" style="cursor: pointer; text-decoration: none;"
+        hx-post="{% url 'frontend:item-toggle-status' item_pk=item.pk %}">
+    </a>
+</li>

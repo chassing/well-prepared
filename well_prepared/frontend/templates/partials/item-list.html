@@ -1,0 +1,5 @@
+<ul class="ps-0" style="width: 100%">
+    {% for item in section.items.all %}
+        {% include "partials/item-detail.html" with display_closed_items=section.display_closed_items %}
+    {% endfor %}
+</ul>
