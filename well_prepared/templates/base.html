@@ -45,11 +45,18 @@
             </ul>
             <!-- Icons -->
             <ul class="navbar-nav d-flex flex-row me-1">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <img class="rounded-circle" style="margin-top: -0.27rem; margin-bottom: -0.27rem" alt="avatar2"
                             src="{{user.email | gravatar}}" />
                     </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li>
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn">Logout</button>
+                            </form>
+                    </ul>
                 </li>
             </ul>
         </div>
