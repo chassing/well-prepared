@@ -1,15 +1,28 @@
 {% extends "base.html" %}
 
 {% block title %}
-    {{ event.name }}
-    {% include "partials/event-toggle-open-button.html" %}
+<div class="dropdown">
+    {{ event.name }} <i class="bi {% if event.open %}bi-unlock {% else %} bi-lock {% endif %} fs-4"></i>
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Actions
+    </button>
+    <ul class="dropdown-menu">
+        <li>
+            <a class="dropdown-item cursor-pointer" hx-post="{% url 'frontend:event-toggle-open' event_pk=event.pk %}">
+                <i class="bi {% if event.open %}bi-lock {% else %} bi-unlock {% endif %} link-primary"></i>
+                {% if event.open %}Close{% else %}Reopen{% endif %} Event
+            </a>
+        </li>
+    </ul>
+</div>
+
 {% endblock %}
 
 {% block content %}
 <div class="container-fluid">
     <div class="row justify-content-between">
-        {% for section in event.sections.all %}
-            {% include "partials/section-list.html" %}
+        {% for category in event.categories.all %}
+            {% include "partials/category-list.html" %}
         {% endfor %}
     </div>
 </div>

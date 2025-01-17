@@ -1,11 +1,43 @@
 from django import forms
 
-from api.models import Event, EventTemplate, ItemTemplate
+from api.models import Event, Template, TemplateCategory, TemplateItem
 
 
-class ItemTemplateForm(forms.ModelForm):
+class TemplateForm(forms.ModelForm):
     class Meta:
-        model = ItemTemplate
+        model = Template
+        fields = ("name", "description", "icon")
+
+    def clean_name(self) -> str:
+        name: str = self.cleaned_data["name"]
+        if Template.objects.filter(name=name).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError(
+                f"A template with the name {name} already exists"
+            )
+        return name
+
+
+class TemplateCategoryForm(forms.ModelForm):
+    class Meta:
+        model = TemplateCategory
+        fields = ("name", "description", "icon")
+
+    def clean_name(self) -> str:
+        name: str = self.cleaned_data["name"]
+        if (
+            TemplateCategory.objects.filter(name=name, template=self.instance.template)
+            .exclude(pk=self.instance.pk)
+            .exists()
+        ):
+            raise forms.ValidationError(
+                f"A category with the name {name} already exists"
+            )
+        return name
+
+
+class TemplateItemCreateForm(forms.ModelForm):
+    class Meta:
+        model = TemplateItem
         fields = ("name",)
         widgets = {
             "name": forms.TextInput(attrs={"data-1p-ignore": "true"}),
@@ -13,13 +45,25 @@ class ItemTemplateForm(forms.ModelForm):
 
     def clean_name(self) -> str:
         name: str = self.cleaned_data["name"]
-        if ItemTemplate.objects.filter(name=name).exclude(pk=self.instance.pk).exists():
+        if (
+            TemplateItem.objects.filter(
+                name=name, category__template=self.instance.category.template
+            )
+            .exclude(pk=self.instance.pk)
+            .exists()
+        ):
             raise forms.ValidationError(f"An item with the name {name} already exists")
         return name
 
-    def save(self) -> ItemTemplate:
-        item: ItemTemplate = super().save()
-        return item
+
+class TemplateItemEditForm(forms.ModelForm):
+    class Meta:
+        model = TemplateItem
+        fields = ("name", "icon")
+        widgets = {
+            "name": forms.TextInput(attrs={"data-1p-ignore": "true"}),
+            "icon": forms.Select(choices=[]),
+        }
 
 
 class EventForm(forms.ModelForm):
@@ -32,11 +76,15 @@ class EventForm(forms.ModelForm):
 
     def clean_name(self) -> str:
         name: str = self.cleaned_data["name"]
-        if Event.objects.filter(name=name).exclude(pk=self.instance.pk).exists():
+        if (
+            Event.objects.filter(name=name, open=True)
+            .exclude(pk=self.instance.pk)
+            .exists()
+        ):
             raise forms.ValidationError(f"An event with the name {name} already exists")
         return name
 
-    def save(self, template: EventTemplate) -> Event:
+    def save(self, template: Template) -> Event:
         return Event.create_from_template(
             name=self.cleaned_data["name"],
             date=self.cleaned_data["date"],

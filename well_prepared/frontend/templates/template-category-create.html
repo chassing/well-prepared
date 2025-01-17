@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% load bootstrap5 %}
+
+{% block title %}
+New Category
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <form class="form" action="{% url 'frontend:template-category-create' template_pk=template_pk %}" method="post">
+        <div class="form-row">
+            {% csrf_token %}
+            {% bootstrap_form_errors form %}
+            {% bootstrap_form form %}
+            <button class="btn btn-primary btn-block" type="submit">
+                <i class="bi bi-plus-square"></i> Create
+            </button>
+            <a class="btn btn-secondary btn-block" href="{% url 'frontend:template-detail' template_pk=template_pk %}">
+                <i class="bi bi-x-square"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

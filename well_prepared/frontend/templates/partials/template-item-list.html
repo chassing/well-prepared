@@ -1,0 +1,6 @@
+<ul class="ps-0" style="width: 100%"
+    id="category-{{category.pk}}-items">
+    {% for item in category.items.all %}
+        {% include "partials/template-item-detail.html" %}
+    {% endfor %}
+</ul>

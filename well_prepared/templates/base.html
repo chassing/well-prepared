@@ -1,6 +1,7 @@
 {% extends 'bootstrap.html' %}
 
 {% load static %}
+{% load gravatar %}
 
 {% block bootstrap_extra_head %}
 
@@ -37,6 +38,18 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="{% url 'frontend:template-list' %}">Templates</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'frontend:event-list' %}">Events</a>
+                </li>
+            </ul>
+            <!-- Icons -->
+            <ul class="navbar-nav d-flex flex-row me-1">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <img class="rounded-circle" style="margin-top: -0.27rem; margin-bottom: -0.27rem" alt="avatar2"
+                            src="{{user.email | gravatar}}" />
+                    </a>
                 </li>
             </ul>
         </div>

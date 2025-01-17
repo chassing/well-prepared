@@ -5,7 +5,7 @@ echo "Starting ..."
 
 cd well_prepared
 
-PORT=${PORT:-8000}
+PORT=${PORT:-8080}
 DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE:-well_prepared.settings_prod}
 export DJANGO_SETTINGS_MODULE
 

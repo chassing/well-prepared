@@ -1,16 +1,17 @@
 {% load bootstrap5 %}
 <li class="item mb-2" hx-target="this" hx-swap="outerHTML">
-
     <form>
         <div class="form-row">
             {% csrf_token %}
             {% bootstrap_form_errors form %}
             {% bootstrap_form form layout='inline' %}
             <button class="btn btn-primary btn-sm mt-2"
-                hx-post="{% url 'frontend:item-template-create' section_pk=section_pk %}">
+                hx-post="{% url 'frontend:template-item-create' category_pk=category_pk %}">
                 <i class="bi bi-floppy"></i>
+            </button>
+            <button class="btn btn-secondary btn-sm mt-2" hx-get="{% url 'frontend:empty' %}">
+                <i class="bi bi-x-square"></i>
             </button>
         </div>
     </form>
-
 </li>

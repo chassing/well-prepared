@@ -8,12 +8,12 @@
 <div class="container-fluid">
     <div class="row justify-content-between">
         <div class="col col-md-3">
-        <form action="{% url 'frontend:event-create' template_pk=template.pk %}" method="post">
-            {% csrf_token %}
-            {% bootstrap_form_errors form %}
-            {% bootstrap_form form %}
-            <button class="btn btn-primary btn-block" type="submit">Create</button>
-        </form>
+            <form action="{% url 'frontend:event-create' template_pk=template.pk %}" method="post">
+                {% csrf_token %}
+                {% bootstrap_form_errors form %}
+                {% bootstrap_form form %}
+                <button class="btn btn-primary btn-block" type="submit">Create</button>
+            </form>
         </div>
     </div>
 </div>

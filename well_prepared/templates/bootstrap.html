@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 {% load bootstrap5 %}
-{% load static %}
 
 <html{% if request.LANGUAGE_CODE %} lang="{{ request.LANGUAGE_CODE }}" {% endif %}>
 
@@ -15,6 +14,10 @@
         <script src="https://unpkg.com/htmx.org@2.0.4"
             integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
             crossorigin="anonymous"></script>
+
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Reenie+Beanie&display=swap');
+        </style>
 
         {% block bootstrap_extra_head %}{% endblock %}
     </head>

@@ -1,15 +1,17 @@
 import datetime
 
+from django.conf import settings
 from django.db import models
 
 
 #
 # Templates
 #
-class EventTemplate(models.Model):
+class Template(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     icon = models.CharField(max_length=10, blank=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
         ordering: tuple[str] = ("-name",)
@@ -18,12 +20,12 @@ class EventTemplate(models.Model):
         return self.name
 
 
-class SectionTemplate(models.Model):
+class TemplateCategory(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     icon = models.CharField(max_length=10, blank=True)
-    event = models.ForeignKey(
-        EventTemplate, on_delete=models.CASCADE, related_name="sections"
+    template = models.ForeignKey(
+        Template, on_delete=models.CASCADE, related_name="categories"
     )
 
     class Meta:
@@ -33,19 +35,19 @@ class SectionTemplate(models.Model):
         return f"{self.event}/{self.name}"
 
 
-class ItemTemplate(models.Model):
+class TemplateItem(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     icon = models.CharField(max_length=10, blank=True)
-    section = models.ForeignKey(
-        SectionTemplate, on_delete=models.CASCADE, related_name="items"
+    category = models.ForeignKey(
+        TemplateCategory, on_delete=models.CASCADE, related_name="items"
     )
 
     class Meta:
         ordering: tuple[str] = ("name",)
 
     def __str__(self) -> str:
-        return f"{self.section}/{self.name}"
+        return f"{self.category}/{self.name}"
 
 
 #
@@ -57,6 +59,7 @@ class Event(models.Model):
     icon = models.CharField(max_length=10, blank=True)
     date = models.DateField()
     open = models.BooleanField(default=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
         ordering: tuple[str] = ("date", "name")
@@ -66,24 +69,24 @@ class Event(models.Model):
 
     @classmethod
     def create_from_template(
-        cls, name: str, date: datetime.date, template: EventTemplate
+        cls, name: str, date: datetime.date, template: Template
     ) -> "Event":
         event = Event.objects.create(
             name=name, date=date, description=template.description, icon=template.icon
         )
-        for section_template in template.sections.all():
-            section = Section.objects.create(
-                name=section_template.name,
-                description=section_template.description,
-                icon=section_template.icon,
+        for template_category in template.categories.all():
+            category = Category.objects.create(
+                name=template_category.name,
+                description=template_category.description,
+                icon=template_category.icon,
                 event=event,
             )
-            for item_template in section_template.items.all():
+            for template_item in template_category.items.all():
                 Item.objects.create(
-                    name=item_template.name,
-                    description=item_template.description,
-                    icon=item_template.icon,
-                    section=section,
+                    name=template_item.name,
+                    description=template_item.description,
+                    icon=template_item.icon,
+                    category=category,
                 )
         return event
 
@@ -92,11 +95,13 @@ class Event(models.Model):
         self.save()
 
 
-class Section(models.Model):
+class Category(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     icon = models.CharField(max_length=10, blank=True)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="sections")
+    event = models.ForeignKey(
+        Event, on_delete=models.CASCADE, related_name="categories"
+    )
     display_closed_items = models.BooleanField(default=True)
 
     class Meta:
@@ -123,7 +128,9 @@ class Item(models.Model):
         "C": "Closed",
     }
     status = models.CharField(max_length=1, choices=MODES, default="O")
-    section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name="items")
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, related_name="items"
+    )
 
     class Meta:
         ordering: tuple[str] = ("name",)

@@ -1,0 +1,18 @@
+{% load bootstrap5 %}
+<div hx-target="this" hx-swap="outerHTML">
+    <form>
+        <div class="form-row mb-3">
+            {% csrf_token %}
+            {% bootstrap_form_errors form %}
+            {% bootstrap_form form layout='inline' %}
+            <button class="btn btn-primary btn-sm mt-2"
+                hx-post="{% url 'frontend:template-item-edit' item_pk=form.instance.pk %}">
+                <i class="bi bi-floppy"></i>
+            </button>
+            <button class="btn btn-secondary btn-sm mt-2"
+                hx-get="{% url 'frontend:template-item-detail' item_pk=form.instance.pk %}">
+                <i class="bi bi-x-square"></i>
+            </button>
+        </div>
+    </form>
+</div>

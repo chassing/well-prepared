@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% load gravatar %}
+
+{% block title %}
+Events
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <h5>Open Events</h5>
+    <div class="row justify-content-between">
+        {% for event in events %}
+        {% if event.open %}
+        <div class="col">
+            <div class="card mb-3">
+                <div class="position-absolute top-0 end-0 p-1">
+                    <span class="badge top-0 start-100">
+                        <img class="rounded-circle" src="{{user.email | gravatar}}" />
+                    </span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.icon }} {{ event.name }}</h5>
+                    <p class="card-text">{{ event.description }}</p>
+                    <a class="stretched-link" href="{% url 'frontend:event-detail' event_pk=event.pk %}"></a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <h5>Done Events</h5>
+    <div class="row justify-content-between">
+        {% for event in events %}
+        {% if not event.open %}
+        <div class="col">
+            <div class="card mb-3">
+                <div class="position-absolute top-0 end-0 p-1">
+                    <span class="badge top-0 start-100">
+                        <img class="rounded-circle" src="{{user.email | gravatar}}" />
+                    </span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.icon }} {{ event.name }}</h5>
+                    <p class="card-text">{{ event.description }}</p>
+                    <a class="stretched-link" href="{% url 'frontend:event-detail' event_pk=event.pk %}"></a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

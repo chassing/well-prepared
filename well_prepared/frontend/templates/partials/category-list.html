@@ -1,0 +1,22 @@
+<div class="col">
+    <div class="card mb-3 me-2">
+        <div class="card-body">
+            <div class="card-title">
+                <h5>
+                    {{ category.icon }} {{ category.name }}
+                    <a style="cursor: pointer; text-decoration: none; color: black;"
+                        hx-post="{% url 'frontend:category-toggle-display-closed-items' category_pk=category.pk %}"
+                        hx-target="#category-{{ category.pk }}-item-list"
+                        hx-on::after-request="htmx.toggleClass(htmx.find('#category-{{ category.pk }}-toggle-display-closed-items'), 'filter-off');"
+                        data-bs-toggle="tooltip" data-bs-title="Show/hide closed items">
+                        <i id="category-{{ category.pk }}-toggle-display-closed-items"
+                            class="bi bi-filter-square {% if not category.display_closed_items %} filter-off {% endif %}"></i>
+                    </a>
+                </h5>
+            </div>
+            <div id="category-{{ category.pk }}-item-list">
+                {% include "partials/item-list.html" %}
+            </div>
+        </div>
+    </div>
+</div>

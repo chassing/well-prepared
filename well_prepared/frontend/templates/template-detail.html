@@ -1,14 +1,45 @@
 {% extends "base.html" %}
 
-{% load static %}
-
-{% block title %}{{ template.name }}{% endblock %}
+{% block title %}
+<div class="dropdown">
+    {{ template.name }}
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Actions
+    </button>
+    <ul class="dropdown-menu">
+        <li>
+            <a class="dropdown-item" href="{% url 'frontend:template-category-create' template_pk=template.pk %}">
+                <i class="bi bi-plus-square link-primary"></i>
+                Add Category
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="{% url 'frontend:event-create' template_pk=template.pk %}">
+                <i class="bi bi-calendar-date link-primary"></i>
+                Create Event
+            </a>
+        <li>
+            <a class="dropdown-item" href="{% url 'frontend:template-edit' template_pk=template.pk %}">
+                <i class="bi bi-pen"></i>
+                Edit Template
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item cursor-pointer "
+                hx-post="{% url 'frontend:template-delete' template_pk=template.pk %}" hx-confirm="Are you sure?">
+                <i class="bi bi-trash link-danger"></i>
+                Delete Template
+            </a>
+        </li>
+    </ul>
+</div>
+{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
     <div class="row justify-content-between">
-        {% for section in template.sections.all %}
-            {% include "partials/section-template-list.html" with section=section %}
+        {% for category in template.categories.all %}
+        {% include "partials/template-category-list.html" with category=category %}
         {% endfor %}
     </div>
 </div>
