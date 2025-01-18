@@ -32,7 +32,7 @@ class TemplateCategory(models.Model):
         ordering: tuple[str] = ("name",)
 
     def __str__(self) -> str:
-        return f"{self.event}/{self.name}"
+        return f"{self.template}/{self.name}"
 
 
 class TemplateItem(models.Model):
