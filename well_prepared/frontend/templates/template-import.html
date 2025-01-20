@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% load bootstrap5 %}
+
+{% block title %}
+Import Template
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <form class="form" action="{% url 'frontend:template-import' %}" method="post" enctype="multipart/form-data">
+        <div class="form-row">
+            {% csrf_token %}
+            {% bootstrap_form_errors form %}
+            {% bootstrap_form form %}
+            <button class="btn btn-primary btn-block" type="submit">
+                <i class="bi bi-cloud-upload"></i> Import
+            </button>
+            <a class="btn btn-secondary btn-block" href="{% url 'frontend:template-list' %}">
+                <i class="bi bi-x-square"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

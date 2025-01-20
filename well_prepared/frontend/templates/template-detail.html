@@ -2,7 +2,7 @@
 
 {% block title %}
 <div class="dropdown">
-    {{ template.name }}
+    {{ template.icon }} {{ template.name }}
     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         Actions
     </button>
@@ -22,6 +22,12 @@
             <a class="dropdown-item" href="{% url 'frontend:template-edit' template_pk=template.pk %}">
                 <i class="bi bi-pen"></i>
                 Edit Template
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="{% url 'frontend:template-export' template_pk=template.pk %}">
+                <i class="bi bi-cloud-download"></i>
+                Export Template
             </a>
         </li>
         <li>

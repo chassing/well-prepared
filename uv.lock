@@ -402,6 +402,7 @@ dependencies = [
     { name = "django-htmx" },
     { name = "gunicorn" },
     { name = "psycopg", extra = ["binary", "pool"] },
+    { name = "pyyaml" },
     { name = "whitenoise" },
 ]
 
@@ -421,6 +422,7 @@ requires-dist = [
     { name = "django-htmx", specifier = ">=1.21.0" },
     { name = "gunicorn", specifier = ">=23.0.0" },
     { name = "psycopg", extras = ["binary", "pool"], specifier = ">=3.2.3" },
+    { name = "pyyaml", specifier = ">=6.0.2" },
     { name = "whitenoise", specifier = ">=6.8.2" },
 ]
 

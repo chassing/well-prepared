@@ -10,12 +10,18 @@ urlpatterns = [
     #
     path(r"template/", views.template_list, name="template-list"),
     path(r"template/create", views.template_create, name="template-create"),
+    path(r"template/import", views.template_import, name="template-import"),
     path(r"template/<int:template_pk>", views.template_detail, name="template-detail"),
     path(r"template/<int:template_pk>/edit", views.template_edit, name="template-edit"),
     path(
         r"template/<int:template_pk>/delete",
         views.template_delete,
         name="template-delete",
+    ),
+    path(
+        r"template/<int:template_pk>/export",
+        views.template_export,
+        name="template-export",
     ),
     path(
         r"template/<int:template_pk>/category/create",

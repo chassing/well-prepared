@@ -1,6 +1,9 @@
 import datetime
+from collections.abc import Mapping
 
+import yaml
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -14,10 +17,58 @@ class Template(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
-        ordering: tuple[str] = ("-name",)
+        ordering: tuple = ("-name",)
 
     def __str__(self) -> str:
         return self.name
+
+    def export_data(self) -> str:
+        """Export the template to YAML."""
+        data = {
+            "name": self.name,
+            "description": self.description,
+            "icon": self.icon,
+            "categories": [],
+        }
+        for category in self.categories.all():
+            category_data = {
+                "name": category.name,
+                "description": category.description,
+                "icon": category.icon,
+                "items": [],
+            }
+            for item in category.items.all():
+                category_data["items"].append({
+                    "name": f"{item.icon + ' ' if item.icon else ''}{item.name}",
+                    "description": item.description,
+                })
+            data["categories"].append(category_data)
+        return yaml.dump(data, explicit_start=True, encoding="utf-8")
+
+    @classmethod
+    def import_data(cls, author: User, data: Mapping) -> "Template":
+        """Import a template from YAML."""
+        data = yaml.safe_load(data)
+        template = cls.objects.create(
+            name=f"{data['name']}-imported-{datetime.datetime.now(tz=datetime.UTC):%Y-%m-%d}",
+            description=data["description"],
+            icon=data["icon"],
+            author=author,
+        )
+        for category_data in data["categories"]:
+            category = TemplateCategory.objects.create(
+                name=category_data["name"],
+                description=category_data["description"],
+                icon=category_data["icon"],
+                template=template,
+            )
+            for item_data in category_data["items"]:
+                TemplateItem.objects.create(
+                    name=item_data["name"],
+                    description=item_data["description"],
+                    category=category,
+                )
+        return template
 
 
 class TemplateCategory(models.Model):
@@ -29,7 +80,7 @@ class TemplateCategory(models.Model):
     )
 
     class Meta:
-        ordering: tuple[str] = ("name",)
+        ordering: tuple = ("name",)
 
     def __str__(self) -> str:
         return f"{self.template}/{self.name}"
@@ -44,7 +95,7 @@ class TemplateItem(models.Model):
     )
 
     class Meta:
-        ordering: tuple[str] = ("name",)
+        ordering: tuple = ("name",)
 
     def __str__(self) -> str:
         return f"{self.category}/{self.name}"
@@ -62,7 +113,7 @@ class Event(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
-        ordering: tuple[str] = ("date", "name")
+        ordering: tuple = ("date", "name")
 
     def __str__(self) -> str:
         return self.name
@@ -105,7 +156,7 @@ class Category(models.Model):
     display_closed_items = models.BooleanField(default=True)
 
     class Meta:
-        ordering: tuple[str] = ("name",)
+        ordering: tuple = ("name",)
 
     def __str__(self) -> str:
         return self.name
@@ -133,7 +184,7 @@ class Item(models.Model):
     )
 
     class Meta:
-        ordering: tuple[str] = ("name",)
+        ordering: tuple = ("name",)
 
     def __str__(self) -> str:
         return self.name

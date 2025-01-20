@@ -20,6 +20,7 @@ from api.models import (
 )
 from frontend.forms import (
     EventForm,
+    FileUploadForm,
     TemplateCategoryForm,
     TemplateForm,
     TemplateItemCreateForm,
@@ -97,6 +98,32 @@ def template_edit(request: HttpRequest, template_pk: int) -> HttpResponse:
     return render(
         request, "template-edit.html", {"form": form, "template_pk": template.pk}
     )
+
+
+@login_required
+def template_export(_: HttpRequest, template_pk: int) -> HttpResponse:
+    template = get_object_or_404(
+        Template.objects.prefetch_related("categories", "categories__items"),
+        pk=template_pk,
+    )
+    return HttpResponse(
+        template.export_data(),
+        content_type="application/yaml",
+        headers={"content-disposition": f"attachment; filename={template.name}.yaml"},
+    )
+
+
+@login_required
+def template_import(request: HttpRequest) -> HttpResponse:
+    form = FileUploadForm(request.POST or None, request.FILES or None)
+    if request.method == "POST" and form.is_valid():
+        template = Template.import_data(
+            author=request.user, data=form.cleaned_data["file"]
+        )
+        return HttpResponseRedirect(
+            reverse("frontend:template-detail", kwargs={"template_pk": template.pk})
+        )
+    return render(request, "template-import.html", {"form": form})
 
 
 @login_required

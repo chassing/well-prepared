@@ -17,6 +17,10 @@ class TemplateForm(forms.ModelForm):
         return name
 
 
+class FileUploadForm(forms.Form):
+    file = forms.FileField(label="Select a file")
+
+
 class TemplateCategoryForm(forms.ModelForm):
     class Meta:
         model = TemplateCategory
