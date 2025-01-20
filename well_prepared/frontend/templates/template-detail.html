@@ -43,7 +43,7 @@
 
 {% block content %}
 <div class="container-fluid">
-    <div class="row justify-content-between">
+    <div class="row">
         {% for category in template.categories.all %}
         {% include "partials/template-category-list.html" with category=category %}
         {% endfor %}
