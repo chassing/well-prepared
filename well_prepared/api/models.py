@@ -39,7 +39,7 @@ class Template(models.Model):
             }
             for item in category.items.all():
                 category_data["items"].append({
-                    "name": f"{item.icon + ' ' if item.icon else ''}{item.name}",
+                    "name": item.name,
                     "description": item.description,
                 })
             data["categories"].append(category_data)
@@ -89,7 +89,6 @@ class TemplateCategory(models.Model):
 class TemplateItem(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    icon = models.CharField(max_length=10, blank=True)
     category = models.ForeignKey(
         TemplateCategory, on_delete=models.CASCADE, related_name="items"
     )
@@ -136,7 +135,6 @@ class Event(models.Model):
                 Item.objects.create(
                     name=template_item.name,
                     description=template_item.description,
-                    icon=template_item.icon,
                     category=category,
                 )
         return event
@@ -173,7 +171,6 @@ class Category(models.Model):
 class Item(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    icon = models.CharField(max_length=10, blank=True)
     MODES = {
         "O": "Open",
         "C": "Closed",

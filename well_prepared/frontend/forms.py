@@ -63,10 +63,9 @@ class TemplateItemCreateForm(forms.ModelForm):
 class TemplateItemEditForm(forms.ModelForm):
     class Meta:
         model = TemplateItem
-        fields = ("name", "icon")
+        fields = ("name",)
         widgets = {
             "name": forms.TextInput(attrs={"data-1p-ignore": "true"}),
-            "icon": forms.Select(choices=[]),
         }
 
 

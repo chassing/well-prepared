@@ -26,7 +26,7 @@ from frontend.forms import (
     TemplateItemCreateForm,
     TemplateItemEditForm,
 )
-from utils.emoji import matching_emojis, random_emoji
+from utils.emoji import random_emoji
 
 
 class HTTPResponseHXRedirect(HttpResponseRedirect):
@@ -176,8 +176,6 @@ def template_item_create(request: HttpRequest, category_pk: int) -> HttpResponse
 def template_item_edit(request: HttpRequest, item_pk: int) -> HttpResponse:
     obj = get_object_or_404(TemplateItem, pk=item_pk)
     form = TemplateItemEditForm(request.POST or None, instance=obj)
-    emojis = {*matching_emojis(obj.name), obj.icon, ""}
-    form.fields["icon"].widget.choices = [(e, e) for e in sorted(emojis)]
     if request.method == "POST" and form.is_valid():
         form.save()
         return HttpResponseRedirect(
