@@ -10,10 +10,10 @@ Events
 <div class="container-fluid">
 
     <h5>Open Events</h5>
-    <div class="row justify-content-between">
+    <div class="row">
         {% for event in events %}
         {% if event.open %}
-        <div class="col">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
             <div class="card mb-3">
                 <div class="position-absolute top-0 end-0 p-1">
                     <span class="badge top-0 start-100">
@@ -32,10 +32,10 @@ Events
     </div>
 
     <h5>Done Events</h5>
-    <div class="row justify-content-between">
+    <div class="row">
         {% for event in events %}
         {% if not event.open %}
-        <div class="col">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
             <div class="card mb-3">
                 <div class="position-absolute top-0 end-0 p-1">
                     <span class="badge top-0 start-100">

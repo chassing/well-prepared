@@ -1,8 +1,22 @@
-<div class="col">
+<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
     <div class="card mb-3 me-2">
         <div class="card-body">
             <div class="card-title">
-                <h5>{{ category.icon }} {{ category.name }}</h5>
+                <h5>
+                    <span
+                        {% if category.description %}
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="bottom"
+                        data-bs-custom-class="custom-tooltip"
+                        data-bs-title="{{ category.description }}"
+                        {% endif %}
+                        >
+                        {{ category.icon }} {{ category.name }}
+                    </span>
+                    <a href="{% url 'frontend:template-category-edit' category_pk=category.pk %}">
+                        <i class="bi bi-pen fs-6"></i>
+                    </a>
+                </h5>
             </div>
             <div>
                 {% include "partials/template-item-list.html" %}

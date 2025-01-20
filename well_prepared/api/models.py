@@ -119,10 +119,14 @@ class Event(models.Model):
 
     @classmethod
     def create_from_template(
-        cls, name: str, date: datetime.date, template: Template
+        cls, name: str, date: datetime.date, author: User, template: Template
     ) -> "Event":
         event = Event.objects.create(
-            name=name, date=date, description=template.description, icon=template.icon
+            name=name,
+            date=date,
+            description=template.description,
+            icon=template.icon,
+            author=author,
         )
         for template_category in template.categories.all():
             category = Category.objects.create(
@@ -151,7 +155,7 @@ class Category(models.Model):
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, related_name="categories"
     )
-    display_closed_items = models.BooleanField(default=True)
+    display_closed_items = models.BooleanField(default=False)
 
     class Meta:
         ordering: tuple = ("name",)

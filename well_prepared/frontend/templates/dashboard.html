@@ -1,15 +1,17 @@
 {% extends "base.html" %}
-
+{% load gravatar %}
 {% block title %}{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
 
-    {% for event in events %}
-    <div class="row justify-content-between">
+    {% regroup events by author as author_events %}
+    {% for author in author_events %}
+    {% for event in author.list %}
+    <div class="row">
         <h2>
-            <a href="{% url 'frontend:event-detail' event_pk=event.pk %}">
-                {{ event.name }}
+            <a href="{% url 'frontend:event-detail' event_pk=event.pk %}" style="text-decoration: none;">
+                <img class="rounded-circle" src="{{author.grouper.email| gravatar:50}}" /> {{ event.name }}
             </a>
         </h2>
         {% for category in event.categories.all %}
@@ -18,6 +20,9 @@
         {% endif %}
         {% endfor %}
     </div>
+    {% endfor %}
+    {% empty %}
+    Nothing to do! 🎉
     {% endfor %}
 
 </div>

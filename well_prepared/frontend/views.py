@@ -23,8 +23,7 @@ from frontend.forms import (
     FileUploadForm,
     TemplateCategoryForm,
     TemplateForm,
-    TemplateItemCreateForm,
-    TemplateItemEditForm,
+    TemplateItemForm,
 )
 from utils.emoji import random_emoji
 
@@ -48,9 +47,9 @@ def dashboard(request: HttpRequest) -> HttpResponse:
         request,
         "dashboard.html",
         {
-            "events": Event.objects.prefetch_related(
-                "categories", "categories__items"
-            ).filter(open=True)
+            "events": Event.objects.select_related("author")
+            .prefetch_related("categories", "categories__items")
+            .filter(open=True)
         },
     )
 
@@ -153,9 +152,25 @@ def template_category_create(request: HttpRequest, template_pk: int) -> HttpResp
 
 
 @login_required
+def template_category_edit(request: HttpRequest, category_pk: int) -> HttpResponse:
+    category = get_object_or_404(TemplateCategory, pk=category_pk)
+    form = TemplateCategoryForm(request.POST or None, instance=category)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return HttpResponseRedirect(
+            reverse(
+                "frontend:template-detail", kwargs={"template_pk": category.template.pk}
+            )
+        )
+    return render(
+        request, "template-category-edit.html", {"form": form, "category": category}
+    )
+
+
+@login_required
 def template_item_create(request: HttpRequest, category_pk: int) -> HttpResponse:
     category = get_object_or_404(TemplateCategory, pk=category_pk)
-    form = TemplateItemCreateForm(request.POST or None)
+    form = TemplateItemForm(request.POST or None)
     form.instance.category = category
     if request.method == "POST" and form.is_valid():
         form.instance.icon = random_emoji(form.instance.name)
@@ -175,7 +190,7 @@ def template_item_create(request: HttpRequest, category_pk: int) -> HttpResponse
 @login_required
 def template_item_edit(request: HttpRequest, item_pk: int) -> HttpResponse:
     obj = get_object_or_404(TemplateItem, pk=item_pk)
-    form = TemplateItemEditForm(request.POST or None, instance=obj)
+    form = TemplateItemForm(request.POST or None, instance=obj)
     if request.method == "POST" and form.is_valid():
         form.save()
         return HttpResponseRedirect(
@@ -211,16 +226,18 @@ def template_item_delete(request: HttpRequest, item_pk: int) -> HttpResponse:
 
 @login_required
 def event_create(request: HttpRequest, template_pk: int) -> HttpResponse:
-    event_tmpl = get_object_or_404(Template, pk=template_pk)
-    form = EventForm(request.POST or None)
+    template = get_object_or_404(Template, pk=template_pk)
+    form = EventForm(
+        request.POST or None, initial={"name": template.name, "author": request.user}
+    )
     if request.method == "POST" and form.is_valid():
         form.instance.author = request.user
-        obj = form.save(event_tmpl)
+        obj = form.save(template)
         return HttpResponseRedirect(
             reverse("frontend:event-detail", kwargs={"event_pk": obj.pk})
         )
 
-    return render(request, "event-create.html", {"form": form, "template": event_tmpl})
+    return render(request, "event-create.html", {"form": form, "template": template})
 
 
 @login_required

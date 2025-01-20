@@ -1,10 +1,18 @@
 {% if display_closed_items or item.status == 'O' %}
 <li id="item-{{ item.pk }}" class="item border-bottom mb-2 ps-2" hx-swap="outerHTML">
-    <span class="item-status-{{ item.status }} handwritten">
-        {{ item.name }}
-    </span>
-    <a class="stretched-link" style="cursor: pointer; text-decoration: none;"
-        hx-post="{% url 'frontend:item-toggle-status' item_pk=item.pk %}" hx-target="#item-{{ item.pk }}">
+    <a style="cursor: pointer; text-decoration: none;" hx-post="{% url 'frontend:item-toggle-status' item_pk=item.pk %}"
+        hx-target="#item-{{ item.pk }}">
+        <span class="item-status-{{ item.status }} handwritten">
+            {{ item.name }}
+        </span>
     </a>
+    {% if item.description %}
+    <span class="position-absolute bottom-0 end-0 me-2">
+        <a class="cursor-pointer" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="{{ item.description}}">
+            <i class="bi bi-info-square"></i>
+        </a>
+    </span>
+    {% endif %}
+
 </li>
 {% endif %}

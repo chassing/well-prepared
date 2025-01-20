@@ -29,6 +29,11 @@ urlpatterns = [
         name="template-category-create",
     ),
     path(
+        r"template-category/<int:category_pk>/edit",
+        views.template_category_edit,
+        name="template-category-edit",
+    ),
+    path(
         r"template-category/<int:category_pk>/item/create",
         views.template_item_create,
         name="template-item-create",

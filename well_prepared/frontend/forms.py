@@ -39,10 +39,10 @@ class TemplateCategoryForm(forms.ModelForm):
         return name
 
 
-class TemplateItemCreateForm(forms.ModelForm):
+class TemplateItemForm(forms.ModelForm):
     class Meta:
         model = TemplateItem
-        fields = ("name",)
+        fields = ("name", "description")
         widgets = {
             "name": forms.TextInput(attrs={"data-1p-ignore": "true"}),
         }
@@ -60,19 +60,10 @@ class TemplateItemCreateForm(forms.ModelForm):
         return name
 
 
-class TemplateItemEditForm(forms.ModelForm):
-    class Meta:
-        model = TemplateItem
-        fields = ("name",)
-        widgets = {
-            "name": forms.TextInput(attrs={"data-1p-ignore": "true"}),
-        }
-
-
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ("name", "date")
+        fields = ("name", "date", "author")
         widgets = {
             "name": forms.TextInput(attrs={"data-1p-ignore": "true"}),
         }
@@ -91,5 +82,6 @@ class EventForm(forms.ModelForm):
         return Event.create_from_template(
             name=self.cleaned_data["name"],
             date=self.cleaned_data["date"],
+            author=self.cleaned_data["author"],
             template=template,
         )
