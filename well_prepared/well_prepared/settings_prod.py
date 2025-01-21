@@ -1,3 +1,5 @@
+import sys
+
 from .settings import *
 
 SECRET_KEY = env("SECRET_KEY")
@@ -23,3 +25,22 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_HSTS_SECONDS = 31536000  # 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "level": "ERROR",  # Nur Fehler ausgeben
+            "class": "logging.StreamHandler",
+            "stream": sys.stderr,  # Schreibe auf stderr
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "ERROR",  # Setze das Log-Level
+            "propagate": True,
+        },
+    },
+}
