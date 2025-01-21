@@ -104,6 +104,28 @@ i.filter-off {
     height: 2rem;
 }
 
+.text-with-indent {
+    display: block;
+    text-indent: -1.5em;
+    padding-left: 1.5em;
+    word-break: break-word;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .item {
+        font-size: 14px;
+    }
+
+    .item i {
+        font-size: 22px;
+    }
+
+    .btn {
+        height: 50px;
+        font-size: 22px;
+    }
+}
 /* iPhone 13 portrait mode (width ≤ 390px) */
 @media (max-width: 390px) and (orientation: portrait) {
     .col {
