@@ -14,6 +14,9 @@ DATABASES = {
         "PASSWORD": env("PGPASSWORD"),
         "HOST": env("PGHOST"),
         "PORT": env("PGPORT"),
+        "OPTIONS": {
+            "pool": True,
+        },
     }
 }
 
