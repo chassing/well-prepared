@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import sys
 import tempfile
 from pathlib import Path
 
@@ -142,3 +143,22 @@ LOGOUT_REDIRECT_URL = "/"
 
 # session timeout - 200 weeks
 SESSION_COOKIE_AGE = 1209600 * 100
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "level": "ERROR",  # Nur Fehler ausgeben
+            "class": "logging.StreamHandler",
+            "stream": sys.stderr,  # Schreibe auf stderr
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "ERROR",  # Setze das Log-Level
+            "propagate": True,
+        },
+    },
+}
