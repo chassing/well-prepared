@@ -78,7 +78,8 @@ i.filter-off {
 }
 
 .handwritten {
-    font-family: "Reenie Beanie", serif;
+    font-family: "Reenie Beanie", cursive;
+    src: url('https://fonts.gstatic.com/s/reeniebeanie/v16/z7NSdR76eDkaJKZJFkkjuvWxb-I.woff2') format('woff2');
     /* font-family: "Gloria Hallelujah", serif; */
     /* font-family: "The Girl Next Door", serif; */
     font-weight: 400;
