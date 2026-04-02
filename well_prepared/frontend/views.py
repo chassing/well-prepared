@@ -182,7 +182,7 @@ def template_item_create(request: HttpRequest, category_pk: int) -> HttpResponse
         )
     return render(
         request,
-        "partials/template-item-create.html",
+        "_template-components.html#template_item_create",
         {"form": form, "category_pk": category.pk},
     )
 
@@ -198,14 +198,16 @@ def template_item_edit(request: HttpRequest, item_pk: int) -> HttpResponse:
                 "frontend:template-item-detail", kwargs={"item_pk": form.instance.pk}
             )
         )
-    return render(request, "partials/template-item-edit.html", {"form": form})
+    return render(
+        request, "_template-components.html#template_item_edit", {"form": form}
+    )
 
 
 @login_required
 def template_item_detail(request: HttpRequest, item_pk: int) -> HttpResponse:
     return render(
         request,
-        "partials/template-item-detail.html",
+        "_template-components.html#template_item_detail",
         {"item": get_object_or_404(TemplateItem, pk=item_pk)},
     )
 
@@ -271,7 +273,7 @@ def category_toggle_display_closed_items(
     if request.method == "POST":
         category.toggle_display_closed_items()
 
-    return render(request, "partials/item-list.html", {"category": category})
+    return render(request, "_event-components.html#item_list", {"category": category})
 
 
 @login_required
@@ -282,7 +284,7 @@ def item_toggle_status(request: HttpRequest, item_pk: int) -> HttpResponse:
 
     return render(
         request,
-        "partials/item-detail.html",
+        "_event-components.html#item_detail",
         {"item": item, "display_closed_items": item.category.display_closed_items},
     )
 
@@ -292,4 +294,4 @@ def item_list(request: HttpRequest, category_pk: int) -> HttpResponse:
     category = get_object_or_404(
         Category.objects.prefetch_related("items"), pk=category_pk
     )
-    return render(request, "partials/item-list.html", {"category": category})
+    return render(request, "_event-components.html#item_list", {"category": category})

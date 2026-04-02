@@ -1,0 +1,105 @@
+{% partialdef template_category_list %}
+<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+    <div class="card mb-3 me-2">
+        <div class="card-header">
+            <h5 class="d-flex justify-content-between align-items-center mb-0">
+                <span
+                    {% if category.description %}
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    data-bs-custom-class="custom-tooltip"
+                    data-bs-title="{{ category.description }}"
+                    {% endif %}
+                    >
+                    {{ category.icon }} {{ category.name }}
+                </span>
+                <a href="{% url 'frontend:template-category-edit' category_pk=category.pk %}" style="color: #8b7355;">
+                    <i class="bi bi-pen fs-6"></i>
+                </a>
+            </h5>
+        </div>
+        <div class="card-body">
+            <div>
+                {% include "_template-components.html#template_item_list" %}
+            </div>
+            <div hx-target="#category-{{category.pk}}-items" hx-swap="beforeend">
+                <button class="btn btn-success btn-sm"
+                    hx-get="{% url 'frontend:template-item-create' category_pk=category.pk %}" type="submit">
+                    <i class="bi bi-plus-square"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endpartialdef %}
+
+{% partialdef template_item_list %}
+<ul class="ps-0" style="width: 100%"
+    id="category-{{category.pk}}-items">
+    {% for item in category.items.all %}
+        {% include "_template-components.html#template_item_detail" %}
+    {% endfor %}
+</ul>
+{% endpartialdef %}
+
+{% partialdef template_item_detail %}
+{% load emoji %}
+
+<li class="item d-flex justify-content-between align-items-center mb-2 ps-2" hx-target="this"
+    hx-swap="outerHTML">
+    <span class="handwritten {% if item.name|first_is_emoji %} text-with-indent {% endif %}" style="flex: 1;">
+        {{ item.name }}
+    </span>
+    <span class="d-flex">
+        <a class="cursor-pointer me-2" style="color: #8b7355;" hx-get="{% url 'frontend:template-item-edit' item_pk=item.pk %}">
+            <i class="bi bi-pen"></i>
+        </a>
+
+        <a class="link-danger cursor-pointer" hx-post="{% url 'frontend:template-item-delete' item_pk=item.pk %}"
+            hx-confirm="Are you sure?">
+            <i class="bi bi-x-square"></i>
+        </a>
+    </span>
+</li>
+{% endpartialdef %}
+
+{% partialdef template_item_create %}
+{% load bootstrap5 %}
+<li class="item mb-2" hx-target="this" hx-swap="outerHTML">
+    <form>
+        <div class="form-row">
+            {% csrf_token %}
+            {% bootstrap_form_errors form %}
+            {% bootstrap_form form layout='inline' %}
+            <button class="btn btn-primary btn-sm mt-2"
+                hx-post="{% url 'frontend:template-item-create' category_pk=category_pk %}">
+                <i class="bi bi-floppy"></i>
+            </button>
+            <button class="btn btn-secondary btn-sm mt-2" hx-get="{% url 'frontend:empty' %}">
+                <i class="bi bi-x-square"></i>
+            </button>
+        </div>
+    </form>
+</li>
+{% endpartialdef %}
+
+{% partialdef template_item_edit %}
+{% load bootstrap5 %}
+<div hx-target="this" hx-swap="outerHTML">
+    <form>
+        <div class="form-row mb-3">
+            {% csrf_token %}
+            {% bootstrap_form_errors form %}
+            {% bootstrap_form form layout='inline' %}
+            <button class="btn btn-primary btn-sm mt-2"
+                hx-post="{% url 'frontend:template-item-edit' item_pk=form.instance.pk %}">
+                <i class="bi bi-floppy"></i>
+            </button>
+            <button class="btn btn-secondary btn-sm mt-2"
+                hx-get="{% url 'frontend:template-item-detail' item_pk=form.instance.pk %}">
+                <i class="bi bi-x-square"></i>
+            </button>
+        </div>
+    </form>
+</div>
+{% endpartialdef %}

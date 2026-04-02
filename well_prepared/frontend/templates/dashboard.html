@@ -16,7 +16,7 @@
         </h2>
         {% for category in event.categories.all %}
             {% if not category.done %}
-                {% include "partials/category-list.html" %}
+                {% include "_event-components.html#category_list" %}
         {% endif %}
         {% endfor %}
     </div>

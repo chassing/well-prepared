@@ -5,7 +5,7 @@
 
 {% block bootstrap_extra_head %}
 
-<link href="{% static 'css/project.css' %}" rel="stylesheet">
+<link href="{% static 'css/project.css' %}?v=4" rel="stylesheet">
 
 <link rel="icon" type="image/png" href="{% static 'images/favicon-96x96.png' %}" sizes="96x96" />
 <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}" />
@@ -14,13 +14,13 @@
 <meta name="apple-mobile-web-app-title" content="Well Prepared" />
 <link rel="manifest" href="{% static 'images/site.webmanifest' %}" />
 
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#3d2e1c">
 {% endblock %}
 
 {% block bootstrap_content %}
 {% if user.is_authenticated %}
 <!-- nav only if user is logged in -->
-<nav class="navbar navbar-expand navbar-dark bg-dark">
+<nav class="navbar navbar-expand navbar-dark navbar-warm">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'frontend:dashboard' %}">
             <img src="{% static 'images/favicon-96x96.png' %}" alt="" width="30" height="24">

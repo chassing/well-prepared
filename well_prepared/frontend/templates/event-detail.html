@@ -1,19 +1,26 @@
 {% extends "base.html" %}
 
 {% block title %}
-<div class="dropdown">
-    {{ event.icon }} {{ event.name }} <i class="bi {% if event.open %}bi-unlock {% else %} bi-lock {% endif %} fs-4"></i>
-    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Actions
-    </button>
-    <ul class="dropdown-menu">
-        <li>
-            <a class="dropdown-item cursor-pointer" hx-post="{% url 'frontend:event-toggle-open' event_pk=event.pk %}">
-                <i class="bi {% if event.open %}bi-lock {% else %} bi-unlock {% endif %} link-primary"></i>
-                {% if event.open %}Close{% else %}Reopen{% endif %} Event
-            </a>
-        </li>
-    </ul>
+<div class="d-flex justify-content-between align-items-center">
+    <span>
+        {{ event.icon }} {{ event.name }}
+        <span class="event-status {% if event.open %}event-status-open{% else %}event-status-closed{% endif %}">
+            {% if event.open %}Open{% else %}Closed{% endif %}
+        </span>
+    </span>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Actions
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+                <a class="dropdown-item cursor-pointer" hx-post="{% url 'frontend:event-toggle-open' event_pk=event.pk %}">
+                    <i class="bi {% if event.open %}bi-lock {% else %} bi-unlock {% endif %}"></i>
+                    {% if event.open %}Close{% else %}Reopen{% endif %} Event
+                </a>
+            </li>
+        </ul>
+    </div>
 </div>
 
 {% endblock %}
@@ -22,7 +29,7 @@
 <div class="container-fluid">
     <div class="row">
         {% for category in event.categories.all %}
-            {% include "partials/category-list.html" %}
+            {% include "_event-components.html#category_list" %}
         {% endfor %}
     </div>
 </div>

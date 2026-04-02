@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
 {% block title %}
-<div class="dropdown">
-    {{ template.icon }} {{ template.name }}
+<div class="d-flex justify-content-between align-items-center">
+    <span>{{ template.icon }} {{ template.name }}</span>
+    <div class="dropdown">
     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         Actions
     </button>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu dropdown-menu-end">
         <li>
             <a class="dropdown-item" href="{% url 'frontend:template-category-create' template_pk=template.pk %}">
                 <i class="bi bi-plus-square link-primary"></i>
@@ -38,6 +39,7 @@
             </a>
         </li>
     </ul>
+    </div>
 </div>
 {% endblock %}
 
@@ -45,7 +47,7 @@
 <div class="container-fluid">
     <div class="row">
         {% for category in template.categories.all %}
-        {% include "partials/template-category-list.html" with category=category %}
+        {% include "_template-components.html#template_category_list" with category=category %}
         {% endfor %}
     </div>
 </div>
