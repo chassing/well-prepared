@@ -1,6 +1,7 @@
 import sys
 
-from .settings import *
+from .settings import *  # noqa: F403
+from .settings import env
 
 SECRET_KEY = env("SECRET_KEY")
 DEBUG = False

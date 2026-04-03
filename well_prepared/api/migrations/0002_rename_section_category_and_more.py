@@ -4,26 +4,25 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0001_initial'),
+        ("api", "0001_initial"),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='Section',
-            new_name='Category',
+            old_name="Section",
+            new_name="Category",
         ),
         migrations.RenameModel(
-            old_name='EventTemplate',
-            new_name='Template',
+            old_name="EventTemplate",
+            new_name="Template",
         ),
         migrations.RenameModel(
-            old_name='SectionTemplate',
-            new_name='TemplateCategory',
+            old_name="SectionTemplate",
+            new_name="TemplateCategory",
         ),
         migrations.RenameModel(
-            old_name='ItemTemplate',
-            new_name='TemplateItem',
+            old_name="ItemTemplate",
+            new_name="TemplateItem",
         ),
     ]

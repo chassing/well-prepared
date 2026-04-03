@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0007_remove_item_icon_remove_templateitem_icon'),
+        ("api", "0007_remove_item_icon_remove_templateitem_icon"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='category',
-            name='display_closed_items',
+            model_name="category",
+            name="display_closed_items",
             field=models.BooleanField(default=False),
         ),
     ]

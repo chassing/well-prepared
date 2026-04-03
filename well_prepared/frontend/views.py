@@ -47,7 +47,8 @@ def dashboard(request: HttpRequest) -> HttpResponse:
         request,
         "dashboard.html",
         {
-            "events": Event.objects.select_related("author")
+            "events": Event.objects
+            .select_related("author")
             .prefetch_related("categories", "categories__items")
             .filter(open=True)
         },

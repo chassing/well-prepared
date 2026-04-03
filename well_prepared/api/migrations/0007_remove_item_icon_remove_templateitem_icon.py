@@ -4,18 +4,17 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0006_alter_event_author_alter_template_author'),
+        ("api", "0006_alter_event_author_alter_template_author"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='item',
-            name='icon',
+            model_name="item",
+            name="icon",
         ),
         migrations.RemoveField(
-            model_name='templateitem',
-            name='icon',
+            model_name="templateitem",
+            name="icon",
         ),
     ]

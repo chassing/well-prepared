@@ -4,15 +4,14 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0003_rename_section_item_category_and_more'),
+        ("api", "0003_rename_section_item_category_and_more"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='templatecategory',
-            old_name='event',
-            new_name='template',
+            model_name="templatecategory",
+            old_name="event",
+            new_name="template",
         ),
     ]

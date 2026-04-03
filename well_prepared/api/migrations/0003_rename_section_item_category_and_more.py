@@ -5,30 +5,37 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0002_rename_section_category_and_more'),
+        ("api", "0002_rename_section_category_and_more"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='item',
-            old_name='section',
-            new_name='category',
+            model_name="item",
+            old_name="section",
+            new_name="category",
         ),
         migrations.RenameField(
-            model_name='templateitem',
-            old_name='section',
-            new_name='category',
+            model_name="templateitem",
+            old_name="section",
+            new_name="category",
         ),
         migrations.AlterField(
-            model_name='category',
-            name='event',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='categories', to='api.event'),
+            model_name="category",
+            name="event",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="categories",
+                to="api.event",
+            ),
         ),
         migrations.AlterField(
-            model_name='templatecategory',
-            name='event',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='categories', to='api.template'),
+            model_name="templatecategory",
+            name="event",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="categories",
+                to="api.template",
+            ),
         ),
     ]

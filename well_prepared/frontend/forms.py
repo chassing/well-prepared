@@ -29,7 +29,8 @@ class TemplateCategoryForm(forms.ModelForm):
     def clean_name(self) -> str:
         name: str = self.cleaned_data["name"]
         if (
-            TemplateCategory.objects.filter(name=name, template=self.instance.template)
+            TemplateCategory.objects
+            .filter(name=name, template=self.instance.template)
             .exclude(pk=self.instance.pk)
             .exists()
         ):
@@ -50,9 +51,8 @@ class TemplateItemForm(forms.ModelForm):
     def clean_name(self) -> str:
         name: str = self.cleaned_data["name"]
         if (
-            TemplateItem.objects.filter(
-                name=name, category__template=self.instance.category.template
-            )
+            TemplateItem.objects
+            .filter(name=name, category__template=self.instance.category.template)
             .exclude(pk=self.instance.pk)
             .exists()
         ):
@@ -71,7 +71,8 @@ class EventForm(forms.ModelForm):
     def clean_name(self) -> str:
         name: str = self.cleaned_data["name"]
         if (
-            Event.objects.filter(name=name, open=True)
+            Event.objects
+            .filter(name=name, open=True)
             .exclude(pk=self.instance.pk)
             .exists()
         ):
