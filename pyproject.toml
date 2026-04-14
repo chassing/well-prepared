@@ -22,7 +22,7 @@ django-bootstrap-v5 = { git = "https://github.com/math-a3k/django-bootstrap-v5.g
 
 
 [dependency-groups]
-dev = ["mypy>=1.14.1", "pytest>=8.3.4", "pyyaml>=6.0.2", "ruff>=0.9.1"]
+dev = ["mypy>=1.14.1", "pytest>=9.0.3", "pyyaml>=6.0.2", "ruff>=0.9.1"]
 
 [project.urls]
 homepage = "https://github.com/chassing/well-prepared"
